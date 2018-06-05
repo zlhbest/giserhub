@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="giserhub">
+    <output-path>$PROJECT_DIR$/out/artifacts/giserhub</output-path>
+    <root id="archive" name="giserhub.war">
+      <element id="artifact" artifact-name="giserhub:war exploded" />
+      <element id="dir-copy" path="$PROJECT_DIR$/giserhub/web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/giserhub/web/WEB-INF/lib/ezmorph-1.0.6.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/giserhub/web/WEB-INF/lib/commons-lang-2.6.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/giserhub/web/WEB-INF/lib/json-lib-2.4-jdk15.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/giserhub/web/WEB-INF/lib/commons-logging-1.2.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/giserhub/web/WEB-INF/lib/commons-beanutils-1.9.3.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/giserhub/web/WEB-INF/lib/commons-collections-3.2.2.jar" />
+          <element id="library" level="project" name="lib" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

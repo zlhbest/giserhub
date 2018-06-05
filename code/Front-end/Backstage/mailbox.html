@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>所有信息</title>
+    <!-- <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"> -->
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <!-- <link href="css/plugins/iCheck/custom.css" rel="stylesheet"> -->
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+
+    <script type="text/javascript">
+        //刷新页面
+        function refresh(){
+            location.reload();
+        }
+        //动态的添加table数据
+        function addTabledata(){
+            var strData={"pageNo":1,"pageSize":20};
+            var jsonData=JSON.stringify(strData);
+            var questionJson;
+            $.ajax({
+                url:"http://39.106.181.120/giserhub/getAllUnauditedquestion",
+                data: {date: jsonData},
+                async: true,
+                type: "post",
+                contentType:"application/x-www-form-urlencoded",
+                success:function(data,textStatus){
+                    questionJson=JSON.parse(data);
+                    questionJson=JSON.parse(questionJson[0]["date"]);
+                    var $table=$("#unreadtable tbody");
+                    for(var i=0;i<questionJson.length;i++){
+                        var strtr="<tr class='read'><td class='check-mail'></td><td class='creater'><a href='#'>"+
+                            questionJson[i].u_NickName+"</a></td><td class='title'><a href='#'>"+
+                            questionJson[i].q_Summary+"</a></td><td class=''></td><td class='text-right mail-date'>"+
+                            questionJson[i].q_datetime+"</td></tr>";
+                            $("#unreadtable tbody").append(strtr);
+                    }
+                },
+                error:function(xhr,status,errMsg){
+                    alert("出错！");
+                }
+            });
+        }
+    </script>
+
+
+
+    <div class="col-sm-12 animated fadeInRight">
+        <div class="mail-box-header">
+
+            <form method="get" action="index.html" class="pull-right mail-search">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" name="search" placeholder="搜索消息标题">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            搜索
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <h2>
+            所有消息 (16,485)
+            </h2>
+            <div class="mail-tools tooltip-demo m-t-md">
+                <div class="btn-group pull-right">
+                    <button class="btn btn-white btn-sm"><i class="fa fa-arrow-left"></i>
+                    </button>
+                    <button class="btn btn-white btn-sm"><i class="fa fa-arrow-right"></i>
+                    </button>
+
+                </div>
+                <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" title="刷新消息列表" onclick="refresh()"><i class="fa fa-refresh"></i> 刷新</button>
+                <!-- <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="标为已读"><i class="fa fa-eye"></i>
+                </button>
+                <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="标为重要"><i class="fa fa-exclamation"></i>
+                </button>
+                <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="标为垃圾邮件"><i class="fa fa-trash-o"></i> -->
+                </button>
+
+            </div>
+        </div>
+        <div class="mail-box">
+
+            <table class="table table-hover table-mail" id="unreadtable">
+                <tbody>
+                    <tr class="unread" >
+                        <td class="check-mail">
+                            <!-- <input type="checkbox" class="i-checks"> -->
+                        </td>
+                        <td class="creater"><a>创建人 <i class="fa fa-user" aria-hidden="true"></i></a>
+                        </td>
+                        <td class="title"><a>标题 <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        </td>
+                        <td class="enclosure">附件 <i class="fa fa-paperclip"></i>
+                        </td>
+                        <td class="text-right mail-date">时间 <i class="fa fa-clock-o" aria-hidden="true"></i></td>
+                    </tr>
+                    
+                    <tr class="read">
+                        <td class="check-mail">
+                            <!-- <input type="checkbox" class="i-checks"> -->
+                        </td>
+                        <td class="mail-ontact"><a href="#">WordPress</a> <span class="label label-warning pull-right">验证邮件</span>
+                        </td>
+                        <td class="mail-subject"><a href="#">wp-user-frontend-pro v2.1.9</a>
+                        </td>
+                        <td class=""></td>
+                        <td class="text-right mail-date">上午9:21</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+
+
+
+    <!-- 自定义js -->
+    <script src="js/content.js?v=1.0.0"></script>
+
+
+    <!-- iCheck -->
+    <!-- <script src="js/iCheck/icheck.min.js"></script> -->
+    <script>
+        $(document).ready(function () {
+            // $('.i-checks').iCheck({
+            //     checkboxClass: 'icheckbox_square-green',
+            //     radioClass: 'iradio_square-green',
+            // });
+            addTabledata();
+        });
+    </script>
+
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+    <!--统计代码，可删除-->
+
+</body>
+
+</html>

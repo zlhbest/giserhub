@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>GiserHub</title>
+    <link href="static/image/logo_small.png" rel="shortcut icon" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="static/css/icon.css">
+    <link rel="stylesheet" type="text/css" href="static/css/font-awesome.css">
+    <link href="static/css/untitled.css" rel="stylesheet" type="text/css">
+    <link href="static/css/link.css" rel="stylesheet" type="text/css">
+    <link href="static/css/style.css" rel="stylesheet" type="text/css">
+<body>
+<div class="aw-top-menu-wrap">
+    <div class="container">
+        <!-- logo -->
+        <div class="aw-logo hidden-xs">
+            <h1><a href="index.html"></a></h1>
+        </div>
+        <!-- end logo -->
+        <!-- 搜索框 -->
+        <div class="aw-search-box  hidden-xs hidden-sm">
+            <form class="navbar-search" action="" id="global_search_form" method="post">
+                <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="q" id="aw-search-query">
+                <span title="搜索" id="global_search_btns"><i class="icon icon-search"></i></span>
+            </form>
+        </div>
+        <!-- end 搜索框 -->
+        <!-- 导航 -->
+        <div class="aw-top-nav navbar">
+            <div class="navbar-header">
+                <button class="navbar-toggle pull-left">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html" ><i class="fa  fa-list-ul"></i> 发现</a></li>
+                    <li><a href="idea.html" class="active"><i class="fa fa-bell-o"></i> idea</a></li>
+                    <li><a href="" class=""><i class="fa fa-files-o"></i> 资料</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- end 导航 -->
+        <!-- 用户栏 -->
+        <div id="guests" class="aw-user-nav">
+            <!-- 登陆&注册栏 -->
+            <span>
+				<a class="register btn btn-normal " data-toggle="modal" data-target="#registerModal">注册</a>
+				<a class="login btn btn-normal " data-toggle="modal" data-target="#loginModal">登录</a>
+				</span>
+        </div>
+        <div id="user" class="aw-user-nav" style="display: none">
+            <a href="#" class="aw-user-nav-dropdown aw-hide-txt sponsor" style="width: 120px;" title="">
+                <img alt="" src="static/image/user_dafult.png">
+                <span></span>
+            </a>
+            <div class="aw-user-nav-dropdown-list pull-right">
+                <ul>
+                    <li><a href=""><i class="fa fa-envelope"></i> 私信<span class="badge badge-important hide" id="inbox_unread" style="display: none;">0</span></a></li>
+                    <li class="hidden-xs"><a href="personlCenter.html"><i class="fa fa-cog"></i> 个人中心</a></li>
+                    <li><a href=""><i class="fa fa-power-off"></i> 退出</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- end 用户栏 -->
+    </div>
+</div>
+<div class="aw-container-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="aw-content-wrap clearfix">
+                <div class="col-sm-12 col-md-9 aw-main-content">
+                    <!-- tab切换 -->
+                    <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
+                        <li><a href="#">等待回复</a></li>
+                        <li><a href="#">热门</a></li>
+                        <li><a href="#">推荐</a></li>
+                        <li class="active"><a href="">最新</a></li>
+                        <h2 class="hidden-xs"><i class="icon icon-list"></i> 发现</h2>
+                    </ul>
+                    <!-- end tab切换 -->
+                    <!--问题列表-->
+                    <div class="aw-mod aw-explore-list">
+                        <div class="mod-body">
+                            <div id="aw-common-list" class="aw-common-list">
+                            </div>
+                        </div>
+                        <!--分页-->
+                        <div class="mod-footer">
+                            <div class="page-control">
+                                <ul class="pagination pull-right">
+                                    <li><a href="">&lt;&lt;</a></li>
+                                    <li><a id="prePage">&lt;</a></li>
+                                    <!--<li class="active"><a href="javascript:;">1</a></li>-->
+                                    <li ><a id="nextPage">&gt;</a></li>
+                                    <li><a href="">&gt;&gt;</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 侧边栏 -->
+                <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs hidden-sm">
+                    <div class="aw-mod">
+                        <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Open modal for @mdo</button>-->
+                        <a id="createTeam" class=" btn btn-large1  btn-success publish" data-toggle="modal"  >创建团队</a>
+                        <!--<a id="idea_pubish" class=" btn btn-large1  btn-success publish" data-toggle="modal" >发布idea</a>-->
+                        <!--创建团队模态框-->
+                        <div class="modal fade" id="cTeam" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" >创建团队</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="teamName" class="control-label">团队名称</label>
+                                                <input type="text" class="form-control" id="teamName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="teamMaxNum" class="control-label">团队最大人数</label>
+                                                <input type="text" class="form-control" id="teamMaxNum">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" id="submit_Team">提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--创建团队模态框-->
+                        <!--发布idea模态框-->
+                        <div class="modal fade" data-teamID="0" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="exampleModalLabel">发布idea</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="I_Summary" class="control-label">主题</label>
+                                                <input type="text" class="form-control" id="I_Summary">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="I_Content" class="control-label">内容</label>
+                                                <textarea class="form-control" id="I_Content"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="I_Project" class="control-label">成果</label>
+                                                <textarea class="form-control" id="I_Project"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="I_Plan" class="control-label">计划</label>
+                                                <textarea class="form-control" id="I_Plan"></textarea>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" id="submit_Idea">提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--发布idea模态框-->
+                        <!--登录模态框-->
+                        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" >问题</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <input type="text" id="inputAccount" class="form-control" placeholder="Account" required autofocus>
+                                            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="remember-me"> Remember me
+                                                </label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" id="login">登录</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!---->
+                        <!-- 注册模态框-->
+                        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" >问题</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <input type="text" id="nick" class="form-control" placeholder="昵称" required autofocus>
+                                            <input type="email"  id="email" class="form-control" placeholder="e-mail" required autofocus>
+                                            <input type="password" id ="pwd" class="form-control" placeholder="密码" required>
+                                            <input type="password" id="repwd" class="form-control" placeholder="确认密码" required>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="radio" name="sex" value="1">男
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="sex" value="0">女
+                                                </label>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" id="register">注册</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!---->
+                    </div>
+                    <div class="aw-mod aw-text-align-justify">
+                        <div class="mod-head">
+                            <a href="" class="pull-right">更多 &gt;</a>
+                            <h3>热门话题</h3>
+                        </div>
+                        <div class="mod-body">
+                        </div>
+                    </div>
+                    <div class="aw-mod aw-text-align-justify">
+                        <div class="mod-head">
+                            <a href="" class="pull-right">更多 &gt;</a>
+                            <h3>热门用户</h3>
+                        </div>
+                    </div>
+                </div>
+                <!-- end 侧边栏 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="aw-footer-wrap">
+    <div class="aw-footer">
+        Copyright © 2018, All Rights Reserved
+        <span class="hidden-xs">Powered By <a href="" target="blank">GiserHub Beta</a></span>
+    </div>
+</div>
+<a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});" style="display: inline;"><i class="icon icon-up"></i></a>
+<script src="static/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script src="static/js/aws.js" type="text/javascript"></script>
+<script src="static/js/app.js" type="text/javascript"></script>
+<script src="static/js/bootstrap.js"></script>
+<script src="static/js/login/login.js"></script>
+<script src="static/js/register/register.js"></script>
+<script src="static/js/cookie.js"></script>
+<script src="static/js/idea/getAllPublicIdea.js"></script>
+<script src="static/js/idea/createTeam.js"></script>
+<script src="static/js/idea/insertPubIdea.js"></script>
+<script src="static/js/jquery.cookie.js"></script>
+<script src="static/js/cookie.js"></script>
+
+</body>
+</html>

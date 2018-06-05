@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="renderer" content="webkit"> 
+        <title>问题审核</title>
+        <!-- 标题图标 -->
+        <link rel="icon" href="1.2.ico" type="image/x-icon"/>
+
+        <link href="js/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link href="js/jqgrid/jqgrid.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+        <link href="js/bootstrap/bootstrap-table.css" rel="stylesheet">
+
+</head>
+
+<body style="margin: 10px;margin-bottom: 0px;">
+    <div class="TalePanel">
+        <div></div>
+        <table id="questionTable" style="text-align: center;"></table>
+        <!-- <ul class="pager">
+            <li class="previous" id="_up"><a href="#" onclick="upclick()"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i> 上一页</a></li>
+            <li class="next" id="_down"><a href="#" onclick="downclick()">下一页 <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a></li>
+        </ul> -->
+    </div>
+    <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="js/jqgrid/grid.locale-cn.js"></script>
+    <script type="text/javascript" src="js/jqgrid/jqgrid.js"></script>
+    <script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js"></script>
+    
+    <script type="text/javascript" src="js/bootstrap/bootstrap-table.js"></script>
+    <script type="text/javascript" src="js/bootstrap/bootstrap-table-zh-CN.js"></script>
+    <script type="text/javascript" src="js/layer/layer.min.js"></script>
+
+    <script type="text/javascript">
+    var pageno=1;
+    var pagesize=0;
+    var rowcount=0;
+        $(document).ready(function (){
+            
+            GetQuestionData(1,500);
+            $("#_up").addClass("disabled");
+        });
+        //加载table
+        function GetTable(tableJson){
+            // tableJson=JSON.stringify(tableJson);
+            $('#questionTable').bootstrapTable({
+                pagination: true,
+                pageSize: 10,
+                // showRefresh: true,
+                // pageList: [10, 25, 50, 100],
+                clickToSelect: true,
+                columns: [{
+                    field: 'questionID',
+                    title: '资料ID'
+                }, {
+                    field: 'questionSummery',
+                    title: '资料描述'
+                }, {
+                    field: 'questionCreater',
+                    title: '创建人'
+                }, {
+                    field: 'questionCreateTime',
+                    title: '创建时间'
+                }, {
+                    field: 'questionStatus',
+                    title: '状态'
+                },{
+                    field: 'questionComment',
+                    title: '详情'
+                },{
+                    field: 'questionEnableStatus',
+                    title: '通过状态'
+                }],
+                data: tableJson
+            });
+        }
+        //获取问题数据
+        function GetQuestionData(pageNo, pageSize){
+            var strData={"pageNo":pageNo,"pageSize":pageSize};
+            var jsonData=JSON.stringify(strData);
+            var questionJson;
+            var tableJson=new Array();
+            $.ajax({
+                url:"http://39.106.181.120/giserhub/getAllUnauditedquestion",
+                data: {date: jsonData},
+                // async: true,
+                type: "post",
+                contentType:"application/x-www-form-urlencoded",
+                success:function(data,textStatus){
+                    questionJson=JSON.parse(data);
+                    questionJson=JSON.parse(questionJson[0]["date"]);
+                    rowcount = 0;
+                    for(var i=0;i<questionJson.length;i++){
+                        // pageNo=pageNo+1;
+                        
+                        rowcount = rowcount+1;
+                        var htmlbutton='<button type="button" id="botton_'+questionJson[i].q_id+'" class="btn btn-primary" style="padding:2px 20px;background-color: rgb(47, 64, 80);" onclick="openForm(\''+questionJson[i].q_id+'\')">详情</button>'
+                        tableJson[i]={
+                            "questionID":questionJson[i].q_id,
+                            "questionCreater":questionJson[i].u_NickName,
+                            "questionCreateTime":questionJson[i].q_datetime,
+                            "questionSummery":questionJson[i].q_Summary,
+                        };
+                        // console.log(typeof(questionJson[i].q_EnabledMark));
+                        if(questionJson[i].q_state==false){
+                            var htmlstatus='<span class="label label-warning">未审核</span>'
+                            tableJson[i]["questionStatus"]=htmlstatus;
+                        }else{
+                            var htmlstatus='<span class="label label-success">已审核</span>'
+                            tableJson[i]["questionStatus"]=htmlstatus;
+                        }
+                        
+                        if(questionJson[i].q_EnabledMark==false){
+                            var htmlstatus='<span class="label label-danger">未通过</span>'
+                            tableJson[i]["questionEnableStatus"]=htmlstatus;
+                        }else{
+                            var htmlstatus='<span class="label label-success">已通过</span>'
+                            tableJson[i]["questionEnableStatus"]=htmlstatus;
+                        }
+                        tableJson[i]["questionComment"]=htmlbutton;
+                    }
+                    GetTable(tableJson);
+                    
+                },
+                error:function(xhr,status,errMsg){
+                    alert("出错！");
+                }
+            });
+            
+            return pageNo;
+        }
+
+        //点击详情跳出页面
+        function openForm(questionId){
+            layer.open({
+                type: 2,
+                title: '问题详情',
+                maxmin: true,
+                skin: 'layui-layer-lan',
+                shadeClose: true, //点击遮罩关闭层
+                area : ['650px' , '400px'],
+                content: './QuestionForm.html?'+questionId,
+                success: function(layero, index){
+                    // layer.close(index);
+                    // var body = layer.getChildFrame('body',index);
+                    // //子页面对象
+                    // var iframeWin = window[layero.find('iframe')[0]['name']];
+                    // iframeWin.GetFromInfo(questionId)
+                },end: function () {
+                    location.reload();
+                }
+
+            });
+        }
+        //上一页
+        function upclick(){
+            if(pageno==1){
+                $("#_up").addClass("disabled");
+            }else{
+                pageno=pageno-1;
+                GetQuestionData(pageno,10);
+
+            }
+        }
+        //下一页
+        function downclick(){
+            $("#_up").removeClass("disabled");
+            if(rowcount < 10){
+                $("#_down").addClass("disabled");
+            }
+            pageno=pageno+1;
+            GetQuestionData(pageno,10);
+            // window.location.reload();
+        }
+    </script>
+</body>
+
+</html>
