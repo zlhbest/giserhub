@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.giserhub.dao.model.UserMapper">
+  <resultMap id="BaseResultMap" type="com.giserhub.entity.User">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="S_NICK_NAME" jdbcType="VARCHAR" property="sNickName" />
+    <result column="S_PASSWORD" jdbcType="VARCHAR" property="sPassword" />
+    <result column="S_MOBILEPHONE" jdbcType="VARCHAR" property="sMobilephone" />
+    <result column="S_EMAIL" jdbcType="VARCHAR" property="sEmail" />
+    <result column="S_QQ" jdbcType="VARCHAR" property="sQq" />
+    <result column="S_AGE" jdbcType="INTEGER" property="sAge" />
+    <result column="I_SEX" jdbcType="BIT" property="iSex" />
+    <result column="S_REAL_NAME" jdbcType="VARCHAR" property="sRealName" />
+    <result column="S_COLLEGE" jdbcType="VARCHAR" property="sCollege" />
+    <result column="S_SCHOOL" jdbcType="VARCHAR" property="sSchool" />
+    <result column="S_MAJOR" jdbcType="VARCHAR" property="sMajor" />
+    <result column="B_PERFECT_MARK" jdbcType="BIT" property="bPerfectMark" />
+    <result column="I_QUESTION_NUMBER" jdbcType="INTEGER" property="iQuestionNumber" />
+    <result column="I_QUESTION_AVAILABLE_NUMBER" jdbcType="INTEGER" property="iQuestionAvailableNumber" />
+    <result column="I_QUESTION_UNAVAILABLE_NUMBER" jdbcType="INTEGER" property="iQuestionUnavailableNumber" />
+    <result column="I_DATA_NUMBER" jdbcType="INTEGER" property="iDataNumber" />
+    <result column="I_DATA_AVAILABLE_NUMBER" jdbcType="INTEGER" property="iDataAvailableNumber" />
+    <result column="I_DATA_UNAVAILABLE_NUMBER" jdbcType="INTEGER" property="iDataUnavailableNumber" />
+    <result column="I_PUBLIC_IDEA_NUMBER" jdbcType="INTEGER" property="iPublicIdeaNumber" />
+    <result column="I_PUBLIC_IDEA_AVAILABLE_NUMBER" jdbcType="INTEGER" property="iPublicIdeaAvailableNumber" />
+    <result column="I_PUBLIC_IDEA_UNAVAILABLE_NUMBER" jdbcType="INTEGER" property="iPublicIdeaUnavailableNumber" />
+    <result column="I_PRIVATE_IDEA_NUMBER" jdbcType="INTEGER" property="iPrivateIdeaNumber" />
+    <result column="I_TEAM_CREATE_NUMBER" jdbcType="INTEGER" property="iTeamCreateNumber" />
+    <result column="S_TEAM_JOIN_ID" jdbcType="INTEGER" property="sTeamJoinId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.giserhub.entity.UserWithBLOBs">
+    <result column="S_PROFILE" jdbcType="LONGVARCHAR" property="sProfile" />
+    <result column="S_HEADICON" jdbcType="LONGVARCHAR" property="sHeadicon" />
+    <result column="S_TEAM_CREATE_ID" jdbcType="LONGVARCHAR" property="sTeamCreateId" />
+    <result column="T_USER_REGISTER_TIME" jdbcType="LONGVARCHAR" property="tUserRegisterTime" />
+  </resultMap>
+    <!--通过该标签可定义能复用的sql语句片段，在执行sql语句标签中直接引用即可。这样既可以提高编码效率，还能有效简化代码，提高可读性-->
+    <!--通过&amp;lt;include refid="" /&amp;gt;标签引用，refid="" 中的值指向需要引用的&amp;lt;sql&amp;gt;中的id=“”属性-->
+    <sql id="Base_Column_List">
+    ID, S_NICK_NAME, S_PASSWORD, S_MOBILEPHONE, S_EMAIL, S_QQ, S_AGE, I_SEX, S_REAL_NAME,
+    S_COLLEGE, S_SCHOOL, S_MAJOR, B_PERFECT_MARK, I_QUESTION_NUMBER, I_QUESTION_AVAILABLE_NUMBER,
+    I_QUESTION_UNAVAILABLE_NUMBER, I_DATA_NUMBER, I_DATA_AVAILABLE_NUMBER, I_DATA_UNAVAILABLE_NUMBER,
+    I_PUBLIC_IDEA_NUMBER, I_PUBLIC_IDEA_AVAILABLE_NUMBER, I_PUBLIC_IDEA_UNAVAILABLE_NUMBER,
+    I_PRIVATE_IDEA_NUMBER, I_TEAM_CREATE_NUMBER, S_TEAM_JOIN_ID
+  </sql>
+    <sql id="Blob_Column_List">
+    S_PROFILE, S_HEADICON, S_TEAM_CREATE_ID, T_USER_REGISTER_TIME
+  </sql>
+  <!--插入,如果有重复返回0-->
+  <insert id="insertSelective" parameterType="com.giserhub.entity.UserWithBLOBs" useGeneratedKeys="true" keyProperty="id">
+    insert into user(S_NICK_NAME,S_PASSWORD,S_EMAIL,S_MOBILEPHONE)
+    select #{sNickName,jdbcType=VARCHAR},#{sPassword,jdbcType=VARCHAR},#{sEmail,jdbcType=VARCHAR}, #{sMobilephone,jdbcType=VARCHAR}
+    from dual
+    where not exists
+    (select id from user where S_NICK_NAME=#{sNickName,jdbcType=VARCHAR} or S_EMAIL=#{sEmail,jdbcType=VARCHAR} or S_MOBILEPHONE=#{sMobilephone,jdbcType=VARCHAR})
+  </insert>
+    <!--插入完整信息，根据需要而定-->
+  <update id="updateUserinf" parameterType="com.giserhub.entity.UserWithBLOBs">
+    update user
+    <set>
+      <if test="sQq != null">
+        S_QQ = #{sQq,jdbcType=VARCHAR},
+      </if>
+      <if test="sAge != null">
+        S_AGE = #{sAge,jdbcType=INTEGER},
+      </if>
+      <if test="iSex != null">
+        I_SEX = #{iSex,jdbcType=BIT},
+      </if>
+      <if test="sRealName != null">
+        S_REAL_NAME = #{sRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="sCollege != null">
+        S_COLLEGE = #{sCollege,jdbcType=VARCHAR},
+      </if>
+      <if test="sSchool != null">
+        S_SCHOOL = #{sSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="sMajor != null">
+        S_MAJOR = #{sMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="bPerfectMark != null">
+        B_PERFECT_MARK = #{bPerfectMark,jdbcType=BIT},
+      </if>
+      <if test="iQuestionNumber != null">
+        I_QUESTION_NUMBER = #{iQuestionNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iQuestionAvailableNumber != null">
+        I_QUESTION_AVAILABLE_NUMBER = #{iQuestionAvailableNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iQuestionUnavailableNumber != null">
+        I_QUESTION_UNAVAILABLE_NUMBER = #{iQuestionUnavailableNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iDataNumber != null">
+        I_DATA_NUMBER = #{iDataNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iDataAvailableNumber != null">
+        I_DATA_AVAILABLE_NUMBER = #{iDataAvailableNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iDataUnavailableNumber != null">
+        I_DATA_UNAVAILABLE_NUMBER = #{iDataUnavailableNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iPublicIdeaNumber != null">
+        I_PUBLIC_IDEA_NUMBER = #{iPublicIdeaNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iPublicIdeaAvailableNumber != null">
+        I_PUBLIC_IDEA_AVAILABLE_NUMBER = #{iPublicIdeaAvailableNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iPublicIdeaUnavailableNumber != null">
+        I_PUBLIC_IDEA_UNAVAILABLE_NUMBER = #{iPublicIdeaUnavailableNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iPrivateIdeaNumber != null">
+        I_PRIVATE_IDEA_NUMBER = #{iPrivateIdeaNumber,jdbcType=INTEGER},
+      </if>
+      <if test="iTeamCreateNumber != null">
+        I_TEAM_CREATE_NUMBER = #{iTeamCreateNumber,jdbcType=INTEGER},
+      </if>
+      <if test="sTeamJoinId != null">
+        S_TEAM_JOIN_ID = #{sTeamJoinId,jdbcType=INTEGER},
+      </if>
+      <if test="sProfile != null">
+        S_PROFILE = #{sProfile,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sHeadicon != null">
+        S_HEADICON = #{sHeadicon,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sTeamCreateId != null">
+        S_TEAM_CREATE_ID = #{sTeamCreateId,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tUserRegisterTime != null">
+        T_USER_REGISTER_TIME = #{tUserRegisterTime,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+    <!--登录sql语句,或者精确查找 id name email telphono-->
+    <select id="userSelective" resultType="com.giserhub.entity.UserWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.giserhub.entity.UserWithBLOBs">
+        select
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from user
+        where 1=1
+        <if test="id != null">
+           and ID =  #{id,jdbcType=INTEGER}
+        </if>
+        <if test="sPassword != null">
+           and S_PASSWORD = #{sPassword,jdbcType=VARCHAR}
+        </if>
+        <if test="sNickName != null">
+            and S_NICK_NAME = #{sNickName,jdbcType=VARCHAR}
+        </if>
+        <if test="sMobilephone != null">
+           and S_MOBILEPHONE =#{sMobilephone,jdbcType=VARCHAR}
+        </if>
+        <if test="sEmail != null">
+           and S_EMAIL=#{sEmail,jdbcType=VARCHAR}
+        </if>
+    </select>
+</mapper>
